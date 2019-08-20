@@ -1,5 +1,5 @@
 # Parenthless
-Write skip, take, distinct, ToList, ToHashSet fluently in LINQ statement without extra parentheses.
+Write skip, take, distinct, reverse, ToList, ToHashSet fluently in LINQ statement without extra parentheses.
 
 Instead of writing this:
 ```csharp
@@ -68,6 +68,15 @@ Removes duplicate items from IEnumerable.
 var unique = from i in items
              orderby distinct
              select i;
+```
+
+## reverse
+Reverses IEnumerable.
+```csharp
+var lastThree = from i in items
+                orderby reverse
+                where take(3)
+                select i;
 ```
 
 ## list
