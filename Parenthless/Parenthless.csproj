@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>Write skip, take, distinct, ToList, ToHashSet fluently in LINQ statement without extra parentheses.</Description>
+    <Authors>Ronny Gunawan</Authors>
+    <Company>Ronny Gunawan</Company>
+    <PackageId>Parenthless</PackageId>
+    <Copyright>(c) Ronny Gunawan 2019</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/ronnygunawan/parenthless-linq</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ronnygunawan/parenthless-linq</RepositoryUrl>
+    <PackageTags>parenthless linq skip take distinct list hashset</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
