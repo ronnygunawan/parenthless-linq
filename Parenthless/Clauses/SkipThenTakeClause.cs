@@ -1,4 +1,4 @@
-﻿namespace Parenthless {
+﻿namespace Parenthless.Clauses {
 	public class SkipThenTakeClause {
 		public int SkipCount { get; }
 

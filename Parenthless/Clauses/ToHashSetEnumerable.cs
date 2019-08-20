@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Parenthless {
+namespace Parenthless.Clauses {
 	public class ToHashSetEnumerable<T> {
 		public IEnumerable<T> Enumerable { get; }
 

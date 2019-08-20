@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Parenthless {
+namespace Parenthless.Clauses {
 	public class ToListEnumerable<T> {
 		public IEnumerable<T> Enumerable { get; }
 

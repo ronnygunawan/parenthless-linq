@@ -35,7 +35,7 @@ namespace Tests {
 										   true => i,
 										   false => i - 1
 									   }
-									   group floored by list into g
+									   group floored by ToList into g
 									   select g
 					  let test5 = floorByTwo.GetType().Should().Be<List<int>>()
 					  let test6 = floorByTwo.Should().BeEquivalentTo(0, 8, 4, 4, 0, 8, 0, 6)
@@ -48,7 +48,7 @@ namespace Tests {
 
 					  let union = from i in firstThreeAsc.Union(lastThreeDesc).Union(uniqueFlooredByTwo)
 								  orderby distinct
-								  group i by hashset into g
+								  group i by ToHashSet into g
 								  select g
 					  let test9 = union.GetType().Should().Be<HashSet<int>>()
 					  let test10 = union.Should().BeEquivalentTo(1, 4, 9, 8, 7, 0, 6)
