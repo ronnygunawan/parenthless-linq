@@ -1,16 +1,14 @@
 ﻿using Parenthless.Clauses;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Parenthless {
-	[SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Pseudo keywords should all be lowercase.")]
 	public static class Linq {
 		// where clauses
-		public static SkipClause skip(int count) => new SkipClause(count);
-		public static TakeClause take(int count) => new TakeClause(count);
+		public static SkipClause Skip(int count) => new SkipClause(count);
+		public static TakeClause Take(int count) => new TakeClause(count);
 
 		// orderby clauses
-		public static DistinctClause distinct { get; } = new DistinctClause();
-		public static ReverseClause reverse { get; } = new ReverseClause();
+		public static DistinctClause Distinct { get; } = new DistinctClause();
+		public static ReverseClause Reverse { get; } = new ReverseClause();
 
 		// groupby clauses
 		public static ToListClause ToList { get; } = new ToListClause();

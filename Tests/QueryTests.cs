@@ -12,8 +12,8 @@ namespace Tests {
 			int[] items = { 1, 9, 4, 5, 0, 8, 1, 7 };
 
 			var middleTwoItems = from i in items
-								 where skip(3)
-								 where take(2)
+								 where Skip(3)
+								 where Take(2)
 								 group i by ToList into g
 								 select g;
 
@@ -29,7 +29,7 @@ namespace Tests {
 
 			var distinctItems = from i in items
 								orderby i ascending
-								orderby distinct
+								orderby Distinct
 								group i by ToHashSet into g
 								select g;
 
@@ -67,8 +67,8 @@ namespace Tests {
 			int[] items = { 1, 9, 4, 5, 0, 8, 1, 7 };
 
 			var singleItem = from i in items
-							 where skip(2)
-							 where take(1)
+							 where Skip(2)
+							 where Take(1)
 							 group i by Single into g
 							 select g;
 
@@ -105,8 +105,8 @@ namespace Tests {
 			int[] items = { 1, 9, 4, 5, 0, 8, 1, 7 };
 
 			var singleItem = from i in items
-							 where skip(2)
-							 where take(1)
+							 where Skip(2)
+							 where Take(1)
 							 group i by SingleOrDefault into g
 							 select g;
 
@@ -119,8 +119,8 @@ namespace Tests {
 			int[] items = { 1, 9, 4, 5, 0, 8, 1, 7 };
 
 			var anyItem = from i in items
-						   group i by Any into g
-						   select g;
+						  group i by Any into g
+						  select g;
 
 			anyItem.GetType().Should().Be<bool>();
 			anyItem.Should().Be(true);

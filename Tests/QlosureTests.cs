@@ -14,15 +14,15 @@ namespace Tests {
 			int sum = from q in One.Value(items)
 
 					  let firstThreeAsc = from i in items
-										  where take(3)
+										  where Take(3)
 										  orderby i ascending
 										  select i
 					  let test1 = firstThreeAsc.GetType().Should().Implement<IOrderedEnumerable<int>>()
 					  let test2 = firstThreeAsc.Should().BeEquivalentTo(1, 4, 9)
 
 					  let lastThreeDesc = from i in items
-										  orderby reverse
-										  where take(3)
+										  orderby Reverse
+										  where Take(3)
 										  orderby i descending
 										  select i
 					  let test3 = lastThreeDesc.GetType().Should().Implement<IOrderedEnumerable<int>>()
@@ -41,13 +41,13 @@ namespace Tests {
 					  let test6 = floorByTwo.Should().BeEquivalentTo(0, 8, 4, 4, 0, 8, 0, 6)
 
 					  let uniqueFlooredByTwo = from i in floorByTwo
-											   orderby distinct
+											   orderby Distinct
 											   select i
 					  let test7 = uniqueFlooredByTwo.GetType().Should().Implement<IEnumerable<int>>()
 					  let test8 = uniqueFlooredByTwo.Should().BeEquivalentTo(0, 8, 4, 6)
 
 					  let union = from i in firstThreeAsc.Union(lastThreeDesc).Union(uniqueFlooredByTwo)
-								  orderby distinct
+								  orderby Distinct
 								  group i by ToHashSet into g
 								  select g
 					  let test9 = union.GetType().Should().Be<HashSet<int>>()

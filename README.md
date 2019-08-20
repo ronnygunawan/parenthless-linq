@@ -16,9 +16,9 @@ you can write it without parentheses like this:
 var pageTwo = from e in employees
               where e.JoinDate.Year >= 2018
               orderby e.Name ascending
-              where skip(page * pageSize)
-              where take(pageSize)
-              group e by list into g
+              where Skip(page * pageSize)
+              where Take(pageSize)
+              group e by ToList into g
               select g;
 ```
 
@@ -46,52 +46,108 @@ using static Parenthless.Linq; // important alias to make all the clauses work
 
 # Clauses
 
-## skip(n)
-Excludes first n items from IEnumerable
+## Skip(n)
+Excludes first n items from sequence.
 ```csharp
 var skipped = from i in items
-              where skip(3)
+              where Skip(3)
               select i;
 ```
 
-## take(n)
-Includes only up to n first items from IEnumerable.
+## Take(n)
+Includes only up to n first items from sequence.
 ```csharp
 var taken = from i in items
-            where take(10)
+            where Take(10)
             select i;
 ```
 
-## distinct
-Removes duplicate items from IEnumerable.
+## Distinct
+Removes duplicate items from sequence.
 ```csharp
 var unique = from i in items
-             orderby distinct
+             orderby Distinct
              select i;
 ```
 
-## reverse
-Reverses IEnumerable.
+## Reverse
+Reverses sequence.
 ```csharp
 var lastThree = from i in items
-                orderby reverse
+                orderby Reverse
                 where take(3)
                 select i;
 ```
 
-## list
+## ToList
 Automatically converts return value to List<T>.
 ```csharp
 var list = from i in items
-           group i by list into g
+           group i by ToList into g
            select g; // returns a List<T>
 ```
 
-## hashset
+## ToHashSet
 Automatically converts return value to HashSet<T>.
 ```csharp
 var set = from i in items
           orderby distinct
-          group i by hashset into g
+          group i by ToHashSet into g
           select g; // returns a HashSet<T>
+```
+
+## First
+Automatically converts return value to first item in sequence. Throws exception if sequence is empty.
+```csharp
+var first = from i in items
+            group i by First into g
+            select g;
+```
+
+## FirstOrDefault
+Automatically converts return value to first item in sequence. Returns default value if sequence is empty.
+```csharp
+var first = from i in items
+            group i by FirstOrDefault into g
+            select g;
+```
+
+## Last
+Automatically converts return value to last item in sequence. Throws exception if sequence is empty.
+```csharp
+var last = from i in items
+           group i by Last into g
+           select g;
+```
+
+## LastOrDefault
+Automatically converts return value to last item in sequence. Returns default value if sequence is empty.
+```csharp
+var last = from i in items
+            group i by LastOrDefault into g
+            select g;
+```
+
+## Single
+Automatically converts return value to the only item in sequence. Throws exception if sequence doesn't contain exactly one item.
+```csharp
+var value = from i in items
+            group i by Single into g
+            select g;
+```
+
+## SingleOrDefault
+Automatically converts return value to the only item in sequence. Returns default value if sequence is empty, throws exception if sequence contains more than one item.
+```csharp
+var value = from i in items
+            group i by SingleOrDefault into g
+            select g;
+```
+
+## Any
+Coverts sequence to true if sequence is not empty; to false otherwise.
+```csharp
+var isNotEmpty = from i in items
+                 group i by Any into g
+                 select g;
 ```
