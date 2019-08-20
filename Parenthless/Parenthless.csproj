@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Description>Write skip, take, distinct, ToList, ToHashSet fluently in LINQ statement without extra parentheses.</Description>
+    <Description>Write skip, take, distinct, reverse, ToList, ToHashSet fluently in LINQ statement without extra parentheses.</Description>
     <Authors>Ronny Gunawan</Authors>
     <Company>Ronny Gunawan</Company>
     <PackageId>Parenthless</PackageId>
@@ -13,6 +13,10 @@
     <PackageProjectUrl>https://github.com/ronnygunawan/parenthless-linq</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ronnygunawan/parenthless-linq</RepositoryUrl>
     <PackageTags>parenthless linq skip take distinct list hashset</PackageTags>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>Version 1.0.1
+1. Added new clause: reverse
+2. Fixed bug with list and hashset clause</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

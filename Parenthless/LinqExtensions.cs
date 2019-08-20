@@ -45,9 +45,22 @@ namespace Parenthless {
 			return source.Distinct();
 		}
 
+		// orderby reverse
+		public static IEnumerable<TSource> OrderBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ReverseClause> reverseClauseSelector) {
+			return source.Reverse();
+		}
+
+		// orderby reverse descending
+		public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source, Func<TSource, ReverseClause> reverseClauseSelector) {
+			return source.Reverse();
+		}
+
 		// group x by list into g
 		public static ToListEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToListClause> toListClauseSelector) {
 			return new ToListEnumerable<TSource>(source);
+		}
+		public static ToListEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToListClause> toListClauseSelector, Func<TSource, TElement> elementSelector) {
+			return new ToListEnumerable<TElement>(source.Select(elementSelector));
 		}
 
 		// group x by list into g
@@ -59,6 +72,9 @@ namespace Parenthless {
 		// group x by hashset into g
 		public static ToHashSetEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToHashSetClause> toHashSetClauseSelector) {
 			return new ToHashSetEnumerable<TSource>(source);
+		}
+		public static ToHashSetEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToHashSetClause> toHashSetClauseSelector, Func<TSource, TElement> elementSelector) {
+			return new ToHashSetEnumerable<TElement>(source.Select(elementSelector));
 		}
 
 		// group x by hashset into g
