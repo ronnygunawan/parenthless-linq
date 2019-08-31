@@ -8,7 +8,6 @@ namespace Parenthless.Clauses {
 			Count = count;
 		}
 
-		[SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Pseudo keyword should be lowercase.")]
-		public SkipThenTakeClause take(int count) => new SkipThenTakeClause(Count, count);
+		public SkipThenTakeClause Take(int count) => new SkipThenTakeClause(Count, count);
 	}
 }

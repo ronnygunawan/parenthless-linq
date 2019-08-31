@@ -1,8 +1,8 @@
 ﻿namespace Parenthless.Clauses {
-	public class AnyClause {
+	public class CountClause {
 		public bool Condition { get; }
 
-		public AnyClause(bool condition) {
+		public CountClause(bool condition) {
 			Condition = condition;
 		}
 	}
