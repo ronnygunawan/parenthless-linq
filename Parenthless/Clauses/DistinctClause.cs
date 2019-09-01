@@ -1,4 +1,15 @@
-﻿namespace Parenthless.Clauses {
+﻿using System.Collections.Generic;
+
+namespace Parenthless.Clauses {
 	public class DistinctClause {
+		public DistinctClause<TSource> Using<TSource>(IEqualityComparer<TSource> comparer) => new DistinctClause<TSource>(comparer);
+	}
+
+	public class DistinctClause<TSource> {
+		public IEqualityComparer<TSource> Comparer { get; }
+
+		public DistinctClause(IEqualityComparer<TSource> comparer) {
+			Comparer = comparer;
+		}
 	}
 }

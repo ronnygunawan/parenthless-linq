@@ -1,8 +1,8 @@
 ﻿namespace Parenthless.Clauses {
-	public class AnyClause {
+	public class SkipWhileClause {
 		public bool Condition { get; }
 
-		public AnyClause(bool condition) {
+		public SkipWhileClause(bool condition) {
 			Condition = condition;
 		}
 	}

@@ -2,3 +2,9 @@
 
 # IDE0022: Use expression body for methods
 csharp_style_expression_bodied_methods = true:none
+
+# IDE0060: Remove unused parameter
+dotnet_code_quality_unused_parameters = all:warning
+
+# IDE0005: Using directive is unnecessary.
+dotnet_diagnostic.IDE0005.severity = warning

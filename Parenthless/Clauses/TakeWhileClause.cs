@@ -1,8 +1,8 @@
 ﻿namespace Parenthless.Clauses {
-	public class AnyClause {
+	public class TakeWhileClause {
 		public bool Condition { get; }
 
-		public AnyClause(bool condition) {
+		public TakeWhileClause(bool condition) {
 			Condition = condition;
 		}
 	}
