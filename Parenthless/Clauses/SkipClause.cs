@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Parenthless.Clauses {
+﻿namespace Parenthless.Clauses {
 	public class SkipClause {
 		public int Count { get; }
 

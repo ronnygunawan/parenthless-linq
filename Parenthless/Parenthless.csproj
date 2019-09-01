@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp2.2;netcoreapp3.0;net472</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Description>Write Skip, Take, Distinct, Reverse, ToList, ToHashSet, etc. fluently in LINQ statement without extra parentheses.</Description>
+    <Description>Write Skip, Take, Distinct, ToList, ToHashSet, ToDictionary, etc. fluently in LINQ statement without extra parentheses.</Description>
     <Authors>Ronny Gunawan</Authors>
     <Company>Ronny Gunawan</Company>
     <PackageId>Parenthless</PackageId>
@@ -13,11 +13,11 @@
     <PackageProjectUrl>https://github.com/ronnygunawan/parenthless-linq</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ronnygunawan/parenthless-linq</RepositoryUrl>
     <PackageTags>parenthless linq skip take distinct list hashset</PackageTags>
-    <Version>1.0.2</Version>
-    <PackageReleaseNotes>Version 1.0.2
-1. Added new clauses: First, FirstOrDefault, Last, LastOrDefault, Single, SingleOrDefault, Any
-2. Renamed list to ToList, hashset to ToHashSet
-3. Renamed skip, take, distinct, and reverse to Pascal case</PackageReleaseNotes>
+    <Version>1.0.3</Version>
+    <PackageReleaseNotes>Version 1.0.3
+1. Added new clauses: ToDictionary, OfType, SkipLast, TakeLast, SkipWhile, TakeWhile, DefaultIfEmpty, Concat, Union, Except, Intersect, ToArray, ElementAt, ElementAtOrDefault, Any, All, Count, Max, Min, Sum, Average, StringJoin, Contains, ContainsAny, ContainsAll, SequenceEqual
+2. Added XML documentation
+3. Multi target .NET Standard 2.0, .NET Standard 2.1, .NET Core 2.2, .NET Core 3.0, .NET Framework 4.7.2</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -197,6 +197,30 @@ namespace Parenthless {
 		/// </summary>
 		public static ToHashSetClause ToHashSet { get; } = new ToHashSetClause();
 
+		// 1.0.3
+		/// <summary>
+		/// Creates a <see cref="Dictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/>
+		/// according to a specified key.
+		/// <para>Usage: group element by ToDictionary(element.Key) into dict</para>
+		/// </summary>
+		/// <typeparam name="TKey">The type of the key.</typeparam>
+		/// <param name="key">A key from each element.</param>
+		/// <exception cref="ArgumentException">Method produces duplicate keys for two elements.</exception>
+		public static ToDictionaryClause<TKey> ToDictionary<TKey>(TKey key) => new ToDictionaryClause<TKey>(key);
+
+		// 1.0.3
+		/// <summary>
+		/// Creates a <see cref="Dictionary{TKey, TValue}"/> from an <see cref="IEnumerable{T}"/>
+		/// according to specified key and element.
+		/// <para>Usage: group element by ToDictionary(element.Key, element) into dict</para>
+		/// </summary>
+		/// <typeparam name="TKey">The type of the key.</typeparam>
+		/// <typeparam name="TElement">The type of the value of the element.</typeparam>
+		/// <param name="key">A key from each element.</param>
+		/// <param name="element">Element value from each element.</param>
+		/// <exception cref="ArgumentException">Method produces duplicate keys for two elements.</exception>
+		public static ToDictionaryClause<TKey, TElement> ToDictionary<TKey, TElement>(TKey key, TElement element) => new ToDictionaryClause<TKey, TElement>(key, element);
+
 		// 1.0.2
 		/// <summary>
 		/// Returns the first element of a sequence.
@@ -330,20 +354,107 @@ namespace Parenthless {
 		public static StringJoinClause StringJoin(string separator = ", ") => new StringJoinClause(separator);
 
 		// 1.0.3
-		//public static ContainsClause<TSource> Contains<TSource>(TSource value) => new ContainsClause<TSource>(value);
+		/// <summary>
+		/// Determines whether a sequence contains a specified element by using the default
+		/// equality comparer.
+		/// <para>Usage: group x by Contains(value) into c</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of source.</typeparam>
+		/// <param name="value">The value to locate in the sequence.</param>
+		public static ContainsClause<TSource> Contains<TSource>(TSource value) => new ContainsClause<TSource>(value);
+
 		// 1.0.3
-		//public static ContainsClause<TSource> Contains<TSource>(TSource value, IEqualityComparer<TSource> comparer) => new ContainsClause<TSource>(value, comparer);
+		/// <summary>
+		/// Determines whether a sequence contains a specified element by using a specified
+		/// <see cref="IEqualityComparer{T}"/>.
+		/// <para>Usage: group x by Contains(value, comparer) into c</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of source.</typeparam>
+		/// <param name="value">The value to locate in the sequence.</param>
+		/// <param name="comparer">An equality comparer to compare values.</param>
+		public static ContainsClause<TSource> Contains<TSource>(TSource value, IEqualityComparer<TSource> comparer) => new ContainsClause<TSource>(value, comparer);
+
 		// 1.0.3
-		//public static ContainsAnyClause<TSource> ContainsAny<TSource>(IEnumerable<TSource> values) => new ContainsAnyClause<TSource>(values);
+		/// <summary>
+		/// Determines whether a sequence contains any of specified elements by using the
+		/// default equality comparer.
+		/// <para>Usage: group x by ContainsAny(values) into c</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of source.</typeparam>
+		/// <param name="values">Values to locate in the sequence.</param>
+		public static ContainsAnyClause<TSource> ContainsAny<TSource>(IEnumerable<TSource> values) => new ContainsAnyClause<TSource>(values);
+
 		// 1.0.3
-		//public static ContainsAnyClause<TSource> ContainsAny<TSource>(IEnumerable<TSource> values, IEqualityComparer<TSource> comparer) => new ContainsAnyClause<TSource>(values, comparer);
+		/// <summary>
+		/// Determines whether a sequence contains any of specified elements by using the
+		/// default equality comparer.
+		/// <para>Usage: group x by ContainsAny(value1, value2, value3) into c</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of source.</typeparam>
+		/// <param name="values">Values to locate in the sequence.</param>
+		public static ContainsAnyClause<TSource> ContainsAny<TSource>(params TSource[] values) => new ContainsAnyClause<TSource>(values);
+
 		// 1.0.3
-		//public static ContainsAllClause<TSource> ContainsAll<TSource>(IEnumerable<TSource> values) => new ContainsAllClause<TSource>(values);
+		/// <summary>
+		/// Determines whether a sequence contains any of specified elements by using a
+		/// specified <see cref="IEqualityComparer{T}"/>
+		/// <para>Usage: group x by ContainsAny(values, comparer) into c</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of source.</typeparam>
+		/// <param name="values">Values to locate in the sequence.</param>
+		/// <param name="comparer">An equality comparer to compare values.</param>
+		public static ContainsAnyClause<TSource> ContainsAny<TSource>(IEnumerable<TSource> values, IEqualityComparer<TSource> comparer) => new ContainsAnyClause<TSource>(values, comparer);
+
 		// 1.0.3
-		//public static ContainsAllClause<TSource> ContainsAll<TSource>(IEnumerable<TSource> values, IEqualityComparer<TSource> comparer) => new ContainsAllClause<TSource>(values, comparer);
+		/// <summary>
+		/// Determines whether a sequence contains all of specified elements by using the
+		/// default equality comparer.
+		/// <para>Usage: group x by ContainsAll(value1, value2, value3) into c</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of source.</typeparam>
+		/// <param name="values">Values to locate in the sequence.</param>
+		public static ContainsAllClause<TSource> ContainsAll<TSource>(IEnumerable<TSource> values) => new ContainsAllClause<TSource>(values);
+
 		// 1.0.3
-		//public static SequenceEqualClause<TSource> SequenceEqual<TSource>(IEnumerable<TSource> values) => new SequenceEqualClause<TSource>(values);
+		/// <summary>
+		/// Determines whether a sequence contains all of specified elements by using the
+		/// default equality comparer.
+		/// <para>Usage: group x by ContainsAll(values) into c</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of source.</typeparam>
+		/// <param name="values">Values to locate in the sequence.</param>
+		public static ContainsAllClause<TSource> ContainsAll<TSource>(params TSource[] values) => new ContainsAllClause<TSource>(values);
+
 		// 1.0.3
-		//public static SequenceEqualClause<TSource> SequenceEqual<TSource>(IEnumerable<TSource> values, IEqualityComparer<TSource> comparer) => new SequenceEqualClause<TSource>(values, comparer);
+		/// <summary>
+		/// Determines whether a sequence contains all of specified elements by using a
+		/// specified <see cref="IEqualityComparer{T}"/>
+		/// <para>Usage: group x by ContainsAll(values, comparer) into c</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of source.</typeparam>
+		/// <param name="values">Values to locate in the sequence.</param>
+		/// <param name="comparer">An equality comparer to compare values.</param>
+		public static ContainsAllClause<TSource> ContainsAll<TSource>(IEnumerable<TSource> values, IEqualityComparer<TSource> comparer) => new ContainsAllClause<TSource>(values, comparer);
+
+		// 1.0.3
+		/// <summary>
+		/// Determines whether two sequences are equal by comparing the elements by using
+		/// the default equality comparer for their type.
+		/// <para>Usage: group x by SequenceEqual(second) into eq</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+		/// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
+		public static SequenceEqualClause<TSource> SequenceEqual<TSource>(IEnumerable<TSource> second) => new SequenceEqualClause<TSource>(second);
+
+		// 1.0.3
+		/// <summary>
+		/// Determines whether two sequences are equal by comparing their elements by using
+		/// a specified <see cref="IEqualityComparer{T}"/>.
+		/// <para>Usage: group x by SequenceEqual(second, comparer) into eq</para>
+		/// </summary>
+		/// <typeparam name="TSource">The type of the elements of the input sequences.</typeparam>
+		/// <param name="second">An <see cref="IEnumerable{T}"/> to compare to the first sequence.</param>
+		/// <param name="comparer">An <see cref="IEqualityComparer{T}"/> to use to compare elements.</param>
+		public static SequenceEqualClause<TSource> SequenceEqual<TSource>(IEnumerable<TSource> second, IEqualityComparer<TSource> comparer) => new SequenceEqualClause<TSource>(second, comparer);
 	}
 }

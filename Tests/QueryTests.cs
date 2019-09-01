@@ -213,6 +213,41 @@ namespace Tests {
 		}
 
 		[Fact]
+		public void CanAggregateIntoDictionary() {
+			var stringRepByValue = from i in INT_SOURCE
+								   where Distinct
+								   group i.ToString() by ToDictionary(i) into dict
+								   select dict;
+
+			stringRepByValue.GetType().Should().Be<Dictionary<int, string>>();
+			stringRepByValue.Should().Contain(new Dictionary<int, string> {
+				{ 1, "1" },
+				{ 9, "9" },
+				{ 4, "4" },
+				{ 5, "5" },
+				{ 0, "0" },
+				{ 8, "8" },
+				{ 7, "7" }
+			});
+
+			var stringRepByValue2 = from i in INT_SOURCE
+									where Distinct
+									group i by ToDictionary(i, i.ToString()) into dict
+									select dict;
+
+			stringRepByValue2.GetType().Should().Be<Dictionary<int, string>>();
+			stringRepByValue2.Should().Contain(new Dictionary<int, string> {
+				{ 1, "1" },
+				{ 9, "9" },
+				{ 4, "4" },
+				{ 5, "5" },
+				{ 0, "0" },
+				{ 8, "8" },
+				{ 7, "7" }
+			});
+		}
+
+		[Fact]
 		public void CanAggregateIntoFirst() {
 			var firstItem = from i in INT_SOURCE
 							group i by First into g
@@ -332,6 +367,46 @@ namespace Tests {
 
 			joined.GetType().Should().Be<string>();
 			joined.Should().Be("1, 9, 4, 5, 0, 8, 1, 7");
+		}
+
+		[Fact]
+		public void CanAggregateIntoContains() {
+			var contains3 = from i in INT_SOURCE
+							group i by Contains(3) into c
+							select c;
+
+			contains3.GetType().Should().Be<bool>();
+			contains3.Should().BeFalse();
+		}
+
+		[Fact]
+		public void CanAggregateIntoContainsAny() {
+			var contains3or4 = from i in INT_SOURCE
+							   group i by ContainsAny(3, 4) into c
+							   select c;
+
+			contains3or4.GetType().Should().Be<bool>();
+			contains3or4.Should().BeTrue();
+		}
+
+		[Fact]
+		public void CanAggregateIntoContainsAll() {
+			var containsAll0to9 = from i in INT_SOURCE
+								  group i by ContainsAll(Enumerable.Range(0, 10)) into c
+								  select c;
+
+			containsAll0to9.GetType().Should().Be<bool>();
+			containsAll0to9.Should().BeFalse();
+		}
+
+		[Fact]
+		public void CanAggregateIntoSequenceEqual() {
+			var equals = from i in INT_SOURCE
+						 group i by SequenceEqual(INT_SOURCE) into eq
+						 select eq;
+
+			equals.GetType().Should().Be<bool>();
+			equals.Should().BeTrue();
 		}
 	}
 }
