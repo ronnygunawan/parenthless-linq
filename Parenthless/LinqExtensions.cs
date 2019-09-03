@@ -6,6 +6,13 @@ using System.Linq;
 
 namespace Parenthless {
 	public static class LinqExtensions {
+//#if NETSTANDARD2_1 || NETCOREAPP3_0
+//		// from i in 0..10
+//		public static IEnumerable<TResult> Select<TResult>(this Range range, Func<int, TResult> selector) {
+//			if (range.Start.IsFromEnd || range.End.IsFromEnd) throw new InvalidOperationException("^ operator is not supported.");
+//			return Enumerable.Range(range.Start.Value, range.End.Value - range.Start.Value + 1).Select(selector);
+//		}
+//#endif
 
 		// where OfType<TResult>()
 		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "ofTypeClauseSelector is required in method signature.")]
