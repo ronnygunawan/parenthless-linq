@@ -1,7 +1,9 @@
 # Parenthless
-Write Skip, Take, Distinct, ToList, ToHashSet, ToDictionary, etc. fluently in LINQ statement without extra parentheses.
 
 [![NuGet](https://img.shields.io/nuget/v/Parenthless.svg)](https://www.nuget.org/packages/Parenthless/)
+[![.NET](https://github.com/ronnygunawan/parenthless-linq/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ronnygunawan/parenthless-linq/actions/workflows/dotnet.yml)
+
+Write Skip, Take, Distinct, ToList, ToHashSet, ToDictionary, etc. fluently in LINQ statement without extra parentheses.
 
 Instead of writing this:
 ```csharp
