@@ -9,8 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DEF412D0-9782-41D1-9BCD-54C7EC759D76}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parenthless.EntityFrameworkCore", "Parenthless.EntityFrameworkCore\Parenthless.EntityFrameworkCore.csproj", "{B4826DA3-86D2-41FE-BCFD-6A8111BE5A66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +29,10 @@ Global
 		{14136E47-B85D-45D6-BE28-8155CC336E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14136E47-B85D-45D6-BE28-8155CC336E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14136E47-B85D-45D6-BE28-8155CC336E38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4826DA3-86D2-41FE-BCFD-6A8111BE5A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4826DA3-86D2-41FE-BCFD-6A8111BE5A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4826DA3-86D2-41FE-BCFD-6A8111BE5A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4826DA3-86D2-41FE-BCFD-6A8111BE5A66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
