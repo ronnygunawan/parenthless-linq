@@ -194,12 +194,30 @@ namespace Tests {
 		}
 
 		[Fact]
+		public void CanAggregateIntoImmutableList() {
+			ImmutableList<int> list = from i in INT_SOURCE
+									  group i by ToImmutableList into l
+									  select l;
+
+			list.GetType().Should().Be<ImmutableList<int>>();
+		}
+
+		[Fact]
 		public void CanAggregateIntoArray() {
 			int[] array = from i in INT_SOURCE
 						  group i by ToArray into a
 						  select a;
 
 			array.GetType().Should().Be<int[]>();
+		}
+
+		[Fact]
+		public void CanAggregateIntoImmutableArray() {
+			ImmutableArray<int> array = from i in INT_SOURCE
+										group i by ToImmutableArray into a
+										select a;
+
+			array.GetType().Should().Be<ImmutableArray<int>>();
 		}
 
 		[Fact]
@@ -210,6 +228,16 @@ namespace Tests {
 							   select s;
 
 			set.GetType().Should().Be<HashSet<int>>();
+		}
+
+		[Fact]
+		public void CanAggregateIntoImmutableHashSet() {
+			ImmutableHashSet<int> set = from i in INT_SOURCE
+										orderby Distinct
+										group i by ToImmutableHashSet into s
+										select s;
+
+			set.GetType().Should().Be<ImmutableHashSet<int>>();
 		}
 
 		[Fact]
@@ -236,6 +264,41 @@ namespace Tests {
 														select dict;
 
 			stringRepByValue2.GetType().Should().Be<Dictionary<int, string>>();
+			stringRepByValue2.Should().Contain(new Dictionary<int, string> {
+				{ 1, "1" },
+				{ 9, "9" },
+				{ 4, "4" },
+				{ 5, "5" },
+				{ 0, "0" },
+				{ 8, "8" },
+				{ 7, "7" }
+			});
+		}
+
+		[Fact]
+		public void CanAggregateIntoImmutableDictionary() {
+			ImmutableDictionary<int, string> stringRepByValue = from i in INT_SOURCE
+																where Distinct
+																group i.ToString() by ToImmutableDictionary(i) into dict
+																select dict;
+
+			stringRepByValue.GetType().Should().Be<ImmutableDictionary<int, string>>();
+			stringRepByValue.Should().Contain(new Dictionary<int, string> {
+				{ 1, "1" },
+				{ 9, "9" },
+				{ 4, "4" },
+				{ 5, "5" },
+				{ 0, "0" },
+				{ 8, "8" },
+				{ 7, "7" }
+			});
+
+			ImmutableDictionary<int, string> stringRepByValue2 = from i in INT_SOURCE
+																 where Distinct
+																 group i by ToImmutableDictionary(i, i.ToString()) into dict
+																 select dict;
+
+			stringRepByValue2.GetType().Should().Be<ImmutableDictionary<int, string>>();
 			stringRepByValue2.Should().Contain(new Dictionary<int, string> {
 				{ 1, "1" },
 				{ 9, "9" },
