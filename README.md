@@ -1,6 +1,8 @@
 # Parenthless
 Write Skip, Take, Distinct, ToList, ToHashSet, ToDictionary, etc. fluently in LINQ statement without extra parentheses.
 
+[![NuGet](https://img.shields.io/nuget/v/Parenthless.svg)](https://www.nuget.org/packages/Parenthless/)
+
 Instead of writing this:
 ```csharp
 var paged = (from e in employees
