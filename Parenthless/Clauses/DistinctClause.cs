@@ -2,7 +2,7 @@
 
 namespace Parenthless.Clauses {
 	public class DistinctClause {
-		public DistinctClause<TSource> Using<TSource>(IEqualityComparer<TSource> comparer) => new DistinctClause<TSource>(comparer);
+		public DistinctClause<TSource> Using<TSource>(IEqualityComparer<TSource> comparer) => new(comparer);
 	}
 
 	public class DistinctClause<TSource> {
