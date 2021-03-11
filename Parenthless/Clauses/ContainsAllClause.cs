@@ -15,6 +15,6 @@ namespace Parenthless.Clauses {
 			Comparer = comparer;
 		}
 
-		public ContainsAllClause<TSource> Using(IEqualityComparer<TSource> comparer) => new ContainsAllClause<TSource>(Values, comparer);
+		public ContainsAllClause<TSource> Using(IEqualityComparer<TSource> comparer) => new(Values, comparer);
 	}
 }

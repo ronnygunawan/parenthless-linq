@@ -1,14 +1,17 @@
 ﻿using Parenthless.Clauses;
 using System;
 using System.Collections.Generic;
+#if NETCOREAPP3_1 || NET5_0
+using System.Collections.Immutable;
+#endif
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Parenthless {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 	public static class LinqExtensions {
 		// where OfType<TResult>()
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "ofTypeClauseSelector is required in method signature.")]
-		public static IEnumerable<TResult> Where<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, OfTypeClause<TResult>> ofTypeClauseSelector) {
+		public static IEnumerable<TResult> Where<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, OfTypeClause<TResult>> _) {
 			return source.OfType<TResult>();
 		}
 
@@ -67,8 +70,7 @@ namespace Parenthless {
 		}
 
 		// where DefaultIfEmpty
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "defaultIfEmptyClauseSelector is required in method signature.")]
-		public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, DefaultIfEmptyClause> defaultIfEmptyClauseSelector) {
+		public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, DefaultIfEmptyClause> _) {
 			return source.DefaultIfEmpty();
 		}
 
@@ -97,20 +99,17 @@ namespace Parenthless {
 		}
 
 		// where Distinct
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "distinctClauseSelector is required in method signature.")]
-		public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, DistinctClause> distinctClauseSelector) {
+		public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, DistinctClause> _) {
 			return source.Distinct();
 		}
 
 		// orderby Distinct
 		#region Distinct
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "distinctClauseSelector is required in method signature.")]
-		public static IEnumerable<TSource> OrderBy<TSource>(this IEnumerable<TSource> source, Func<TSource, DistinctClause> distinctClauseSelector) {
+		public static IEnumerable<TSource> OrderBy<TSource>(this IEnumerable<TSource> source, Func<TSource, DistinctClause> _) {
 			return source.Distinct();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "distinctClauseSelector is required in method signature.")]
 		[Obsolete("'descending' has no effect.")]
-		public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source, Func<TSource, DistinctClause> distinctClauseSelector) {
+		public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source, Func<TSource, DistinctClause> _) {
 			return source.Distinct();
 		}
 		#endregion
@@ -130,33 +129,27 @@ namespace Parenthless {
 
 		// orderby Reverse
 		#region Reverse
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "reverseClauseSelector is required in method signature.")]
-		public static IEnumerable<TSource> OrderBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ReverseClause> reverseClauseSelector) {
+		public static IEnumerable<TSource> OrderBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ReverseClause> _) {
 			return source.Reverse();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "reverseClauseSelector is required in method signature.")]
 		[Obsolete("'descending' has no effect.")]
-		public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source, Func<TSource, ReverseClause> reverseClauseSelector) {
+		public static IEnumerable<TSource> OrderByDescending<TSource>(this IEnumerable<TSource> source, Func<TSource, ReverseClause> _) {
 			return source.Reverse();
 		}
 		#endregion
 
 		// group x by ToList into g
 		#region ToList
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "toListClauseSelector is required in method signature.")]
-		public static ToListEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToListClause> toListClauseSelector) {
+		public static ToListEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToListClause> _) {
 			return new ToListEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "toListClauseSelector is required in method signature.")]
-		public static ToListEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToListClause> toListClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static ToListEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToListClause> _, Func<TSource, TElement> elementSelector) {
 			return new ToListEnumerable<TElement>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
-		public static ToListEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, List<TSource>>> methodGroupSelector) {
+		public static ToListEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, List<TSource>>> _) {
 			return new ToListEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
-		public static ToListEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, List<TSource>>> methodGroupSelector, Func<TSource, TElement> elementSelector) {
+		public static ToListEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, List<TSource>>> _, Func<TSource, TElement> elementSelector) {
 			return new ToListEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static List<TResult> Select<TSource, TResult>(this ToListEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
@@ -168,22 +161,42 @@ namespace Parenthless {
 		}
 		#endregion
 
+		#region ToImmutableList
+#if NETCOREAPP3_1 || NET5_0
+		public static ToImmutableListEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToImmutableListClause> _) {
+			return new ToImmutableListEnumerable<TSource>(source);
+		}
+		public static ToImmutableListEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToImmutableListClause> _, Func<TSource, TElement> elementSelector) {
+			return new ToImmutableListEnumerable<TElement>(source.Select(elementSelector));
+		}
+		public static ToImmutableListEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, ImmutableList<TSource>>> _) {
+			return new ToImmutableListEnumerable<TSource>(source);
+		}
+		public static ToImmutableListEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, ImmutableList<TSource>>> _, Func<TSource, TElement> elementSelector) {
+			return new ToImmutableListEnumerable<TElement>(source.Select(elementSelector));
+		}
+		public static ImmutableList<TResult> Select<TSource, TResult>(this ToImmutableListEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
+			if (source.Enumerable is ImmutableList<TResult> list) {
+				return list;
+			} else {
+				return source.Enumerable.Select(resultSelector).ToImmutableList();
+			}
+		}
+#endif
+		#endregion
+
 		// group x by ToArray into g
 		#region ToArray
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "toArrayClauseSelector is required in method signature.")]
-		public static ToArrayEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToArrayClause> toArrayClauseSelector) {
+		public static ToArrayEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToArrayClause> _) {
 			return new ToArrayEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "toArrayClauseSelector is required in method signature.")]
-		public static ToArrayEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToArrayClause> toArrayClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static ToArrayEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToArrayClause> _, Func<TSource, TElement> elementSelector) {
 			return new ToArrayEnumerable<TElement>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
-		public static ToArrayEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, TSource[]>> methodGroupSelector) {
+		public static ToArrayEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, TSource[]>> _) {
 			return new ToArrayEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
-		public static ToArrayEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, TSource[]>> methodGroupSelector, Func<TSource, TElement> elementSelector) {
+		public static ToArrayEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, TSource[]>> _, Func<TSource, TElement> elementSelector) {
 			return new ToArrayEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static TResult[] Select<TSource, TResult>(this ToArrayEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
@@ -191,22 +204,38 @@ namespace Parenthless {
 		}
 		#endregion
 
+		#region ToImmutableArray
+#if NETCOREAPP3_1 || NET5_0
+		public static ToImmutableArrayEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToImmutableArrayClause> _) {
+			return new ToImmutableArrayEnumerable<TSource>(source);
+		}
+		public static ToImmutableArrayEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToImmutableArrayClause> _, Func<TSource, TElement> elementSelector) {
+			return new ToImmutableArrayEnumerable<TElement>(source.Select(elementSelector));
+		}
+		public static ToImmutableArrayEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, ImmutableArray<TSource>>> _) {
+			return new ToImmutableArrayEnumerable<TSource>(source);
+		}
+		public static ToImmutableArrayEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, ImmutableArray<TSource>>> _, Func<TSource, TElement> elementSelector) {
+			return new ToImmutableArrayEnumerable<TElement>(source.Select(elementSelector));
+		}
+		public static ImmutableArray<TResult> Select<TSource, TResult>(this ToImmutableArrayEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
+			return source.Enumerable.Select(resultSelector).ToImmutableArray();
+		}
+#endif
+		#endregion
+
 		// group x by ToHashSet into g
 		#region ToHashSet
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "toHashSetClauseSelector is required in method signature.")]
-		public static ToHashSetEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToHashSetClause> toHashSetClauseSelector) {
+		public static ToHashSetEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToHashSetClause> _) {
 			return new ToHashSetEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "toHashSetClauseSelector is required in method signature.")]
-		public static ToHashSetEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToHashSetClause> toHashSetClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static ToHashSetEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToHashSetClause> _, Func<TSource, TElement> elementSelector) {
 			return new ToHashSetEnumerable<TElement>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
-		public static ToHashSetEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, HashSet<TSource>>> methodGroupSelector) {
+		public static ToHashSetEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, HashSet<TSource>>> _) {
 			return new ToHashSetEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
-		public static ToHashSetEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, HashSet<TSource>>> methodGroupSelector, Func<TSource, TElement> elementSelector) {
+		public static ToHashSetEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, HashSet<TSource>>> _, Func<TSource, TElement> elementSelector) {
 			return new ToHashSetEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static HashSet<TResult> Select<TSource, TResult>(this ToHashSetEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
@@ -218,6 +247,26 @@ namespace Parenthless {
 		}
 		#endregion
 
+		#region ToImmutableHashSet
+#if NETCOREAPP3_1 || NET5_0
+		public static ToImmutableHashSetEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ToImmutableHashSetClause> _) {
+			return new ToImmutableHashSetEnumerable<TSource>(source);
+		}
+		public static ToImmutableHashSetEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToImmutableHashSetClause> _, Func<TSource, TElement> elementSelector) {
+			return new ToImmutableHashSetEnumerable<TElement>(source.Select(elementSelector));
+		}
+		public static ToImmutableHashSetEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, ImmutableHashSet<TSource>>> _) {
+			return new ToImmutableHashSetEnumerable<TSource>(source);
+		}
+		public static ToImmutableHashSetEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, ImmutableHashSet<TSource>>> _, Func<TSource, TElement> elementSelector) {
+			return new ToImmutableHashSetEnumerable<TElement>(source.Select(elementSelector));
+		}
+		public static ImmutableHashSet<TResult> Select<TSource, TResult>(this ToImmutableHashSetEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
+			return source.Enumerable.Select(resultSelector).ToImmutableHashSet();
+		}
+#endif
+		#endregion
+
 		// group x by ToDictionary(key) into g
 		#region ToDictionary(key)
 		public static ToDictionaryEnumerable<TSource, TKey> GroupBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, ToDictionaryClause<TKey>> toDictionaryClauseSelector) {
@@ -226,9 +275,23 @@ namespace Parenthless {
 		public static ToDictionaryEnumerable<TSource, TKey, TElement> GroupBy<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, ToDictionaryClause<TKey>> toDictionaryClauseSelector, Func<TSource, TElement> elementSelector) {
 			return new ToDictionaryEnumerable<TSource, TKey, TElement>(source, item => new ToDictionaryClause<TKey, TElement>(toDictionaryClauseSelector.Invoke(item).Key, elementSelector.Invoke(item)));
 		}
-		public static Dictionary<TKey, TSource> Select<TSource, TKey, TResult>(this ToDictionaryEnumerable<TSource, TKey> source, Func<TSource, TResult> resultSelector) {
+		public static Dictionary<TKey, TSource> Select<TSource, TKey, TResult>(this ToDictionaryEnumerable<TSource, TKey> source, Func<TSource, TResult> _) {
 			return source.Enumerable.ToDictionary(item => source.ToDictionaryClauseSelector.Invoke(item).Key);
 		}
+		#endregion
+
+		#region ToImmutableDictionary(key)
+#if NETCOREAPP3_1 || NET5_0
+		public static ToImmutableDictionaryEnumerable<TSource, TKey> GroupBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, ToImmutableDictionaryClause<TKey>> toImmutableDictionaryClauseSelector) {
+			return new ToImmutableDictionaryEnumerable<TSource, TKey>(source, toImmutableDictionaryClauseSelector);
+		}
+		public static ToImmutableDictionaryEnumerable<TSource, TKey, TElement> GroupBy<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, ToImmutableDictionaryClause<TKey>> toImmutableDictionaryClauseSelector, Func<TSource, TElement> elementSelector) {
+			return new ToImmutableDictionaryEnumerable<TSource, TKey, TElement>(source, item => new ToImmutableDictionaryClause<TKey, TElement>(toImmutableDictionaryClauseSelector.Invoke(item).Key, elementSelector.Invoke(item)));
+		}
+		public static ImmutableDictionary<TKey, TSource> Select<TSource, TKey, TResult>(this ToImmutableDictionaryEnumerable<TSource, TKey> source, Func<TSource, TResult> _) {
+			return source.Enumerable.ToImmutableDictionary(item => source.ToImmutableDictionaryClauseSelector.Invoke(item).Key);
+		}
+#endif
 		#endregion
 
 		// group x by ToDictionary(key, element) into g
@@ -236,106 +299,108 @@ namespace Parenthless {
 		public static ToDictionaryEnumerable<TSource, TKey, TElement> GroupBy<TSource, TElement, TKey>(this IEnumerable<TSource> source, Func<TSource, ToDictionaryClause<TKey, TElement>> toDictionaryClauseSelector) {
 			return new ToDictionaryEnumerable<TSource, TKey, TElement>(source, toDictionaryClauseSelector);
 		}
-		public static ToDictionaryEnumerable<TSource, TKey, TElement> GroupBy<TSource, TElement, TKey>(this IEnumerable<TSource> source, Func<TSource, ToDictionaryClause<TKey, TElement>> toDictionaryClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static ToDictionaryEnumerable<TSource, TKey, TElement> GroupBy<TSource, TElement, TKey>(this IEnumerable<TSource> source, Func<TSource, ToDictionaryClause<TKey, TElement>> toDictionaryClauseSelector, Func<TSource, TElement> _) {
 			return new ToDictionaryEnumerable<TSource, TKey, TElement>(source, toDictionaryClauseSelector);
 		}
-		public static Dictionary<TKey, TElement> Select<TSource, TKey, TElement, TResult>(this ToDictionaryEnumerable<TSource, TKey, TElement> source, Func<TSource, TResult> resultSelector) {
+		public static Dictionary<TKey, TElement> Select<TSource, TKey, TElement, TResult>(this ToDictionaryEnumerable<TSource, TKey, TElement> source, Func<TSource, TResult> _) {
 			return source.Enumerable.ToDictionary(item => source.ToDictionaryClauseSelector.Invoke(item).Key, item => source.ToDictionaryClauseSelector.Invoke(item).Element);
 		}
 		#endregion
 
+		#region ToImmutableDictionary(key, element)
+#if NETCOREAPP3_1 || NET5_0
+		public static ToImmutableDictionaryEnumerable<TSource, TKey, TElement> GroupBy<TSource, TElement, TKey>(this IEnumerable<TSource> source, Func<TSource, ToImmutableDictionaryClause<TKey, TElement>> toImmutableDictionaryClauseSelector) {
+			return new ToImmutableDictionaryEnumerable<TSource, TKey, TElement>(source, toImmutableDictionaryClauseSelector);
+		}
+		public static ToImmutableDictionaryEnumerable<TSource, TKey, TElement> GroupBy<TSource, TElement, TKey>(this IEnumerable<TSource> source, Func<TSource, ToImmutableDictionaryClause<TKey, TElement>> toImmutableDictionaryClauseSelector, Func<TSource, TElement> _) {
+			return new ToImmutableDictionaryEnumerable<TSource, TKey, TElement>(source, toImmutableDictionaryClauseSelector);
+		}
+		public static ImmutableDictionary<TKey, TElement> Select<TSource, TKey, TElement, TResult>(this ToImmutableDictionaryEnumerable<TSource, TKey, TElement> source, Func<TSource, TResult> _) {
+			return source.Enumerable.ToImmutableDictionary(item => source.ToImmutableDictionaryClauseSelector.Invoke(item).Key, item => source.ToImmutableDictionaryClauseSelector.Invoke(item).Element);
+		}
+#endif
+		#endregion
+
 		// group x by First into g select g
-#region First
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "firstClauseSelector is required in method signature.")]
-		public static FirstEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, FirstClause> firstClauseSelector) {
+		#region First
+		public static FirstEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, FirstClause> _) {
 			return new FirstEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "firstClauseSelector is required in method signature.")]
-		public static FirstEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, FirstClause> firstClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static FirstEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, FirstClause> _, Func<TSource, TElement> elementSelector) {
 			return new FirstEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static TResult Select<TSource, TResult>(this FirstEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 			return source.Enumerable.Select(resultSelector).First();
 		}
-#endregion
+		#endregion
 
 		// group x by FirstOrDefault into g select g
-#region FirstOrDefault
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "firstOrDefaultClauseSelector is required in method signature.")]
-		public static FirstOrDefaultEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, FirstOrDefaultClause> firstOrDefaultClauseSelector) {
+		#region FirstOrDefault
+		public static FirstOrDefaultEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, FirstOrDefaultClause> _) {
 			return new FirstOrDefaultEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "firstOrDefaultClauseSelector is required in method signature.")]
-		public static FirstOrDefaultEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, FirstOrDefaultClause> firstOrDefaultClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static FirstOrDefaultEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, FirstOrDefaultClause> _, Func<TSource, TElement> elementSelector) {
 			return new FirstOrDefaultEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static TResult Select<TSource, TResult>(this FirstOrDefaultEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 			return source.Enumerable.Select(resultSelector).FirstOrDefault();
 		}
-#endregion
+		#endregion
 
 		// group x by Last into g select g
-#region Last
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "lastClauseSelector is required in method signature.")]
-		public static LastEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, LastClause> lastClauseSelector) {
+		#region Last
+		public static LastEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, LastClause> _) {
 			return new LastEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "lastClauseSelector is required in method signature.")]
-		public static LastEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, LastClause> lastClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static LastEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, LastClause> _, Func<TSource, TElement> elementSelector) {
 			return new LastEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static TResult Select<TSource, TResult>(this LastEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 			return source.Enumerable.Select(resultSelector).Last();
 		}
-#endregion
+		#endregion
 
 		// group x by LastOrDefault into g select g
-#region LastOrDefault
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "lastOrDefaultClauseSelector is required in method signature.")]
-		public static LastOrDefaultEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, LastOrDefaultClause> lastOrDefaultClauseSelector) {
+		#region LastOrDefault
+		public static LastOrDefaultEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, LastOrDefaultClause> _) {
 			return new LastOrDefaultEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "lastOrDefaultClauseSelector is required in method signature.")]
-		public static LastOrDefaultEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, LastOrDefaultClause> lastOrDefaultClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static LastOrDefaultEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, LastOrDefaultClause> _, Func<TSource, TElement> elementSelector) {
 			return new LastOrDefaultEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static TResult Select<TSource, TResult>(this LastOrDefaultEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 			return source.Enumerable.Select(resultSelector).LastOrDefault();
 		}
-#endregion
+		#endregion
 
 		// group x by Single into g select g
-#region Single
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "singleClauseSelector is required in method signature.")]
-		public static SingleEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SingleClause> singleClauseSelector) {
+		#region Single
+		public static SingleEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SingleClause> _) {
 			return new SingleEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "singleClauseSelector is required in method signature.")]
-		public static SingleEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, SingleClause> singleClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static SingleEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, SingleClause> _, Func<TSource, TElement> elementSelector) {
 			return new SingleEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static TResult Select<TSource, TResult>(this SingleEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 			return source.Enumerable.Select(resultSelector).Single();
 		}
-#endregion
+		#endregion
 
 		// group x by SingleOrDefault into g select g
-#region SingleOrDefault
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "singleOrDefaultClauseSelector is required in method signature.")]
-		public static SingleOrDefaultEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SingleOrDefaultClause> singleOrDefaultClauseSelector) {
+		#region SingleOrDefault
+		public static SingleOrDefaultEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SingleOrDefaultClause> _) {
 			return new SingleOrDefaultEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "singleOrDefaultClauseSelector is required in method signature.")]
-		public static SingleOrDefaultEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, SingleOrDefaultClause> singleOrDefaultClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static SingleOrDefaultEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, SingleOrDefaultClause> _, Func<TSource, TElement> elementSelector) {
 			return new SingleOrDefaultEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static TResult Select<TSource, TResult>(this SingleOrDefaultEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 			return source.Enumerable.Select(resultSelector).SingleOrDefault();
 		}
-#endregion
+		#endregion
 
 		// group x by ElementAt(index) into g select g
-#region ElementAt
+		#region ElementAt
 		public static ElementAtEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ElementAtClause> elementAtClauseSelector) {
 			ElementAtClause elementAtClause = elementAtClauseSelector.Invoke(source.FirstOrDefault());
 			return new ElementAtEnumerable<TSource>(source, elementAtClause.Index);
@@ -347,10 +412,10 @@ namespace Parenthless {
 		public static TResult Select<TSource, TResult>(this ElementAtEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 			return source.Enumerable.Select(resultSelector).ElementAt(source.Index);
 		}
-#endregion
+		#endregion
 
 		// group x by ElementAtOrDefault(index) into g select g
-#region ElementAtOrDefault
+		#region ElementAtOrDefault
 		public static ElementAtOrDefaultEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ElementAtOrDefaultClause> elementAtOrDefaultClauseSelector) {
 			ElementAtOrDefaultClause elementAtOrDefaultClause = elementAtOrDefaultClauseSelector.Invoke(source.FirstOrDefault());
 			return new ElementAtOrDefaultEnumerable<TSource>(source, elementAtOrDefaultClause.Index);
@@ -362,351 +427,278 @@ namespace Parenthless {
 		public static TResult Select<TSource, TResult>(this ElementAtOrDefaultEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 			return source.Enumerable.Select(resultSelector).ElementAtOrDefault(source.Index);
 		}
-#endregion
+		#endregion
 
 		// group x by Any(condition) into g select g
-#region Any
+		#region Any
 		public static AnyEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AnyClause> anyClauseSelector) {
 			return new AnyEnumerable<TSource>(source, anyClauseSelector);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "elementSelector is required in method signature.")]
-		public static AnyEnumerable<TSource> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, AnyClause> anyClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static AnyEnumerable<TSource> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, AnyClause> anyClauseSelector, Func<TSource, TElement> _) {
 			return new AnyEnumerable<TSource>(source, anyClauseSelector);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static bool Select<TSource, TResult>(this AnyEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
+		public static bool Select<TSource, TResult>(this AnyEnumerable<TSource> source, Func<TSource, TResult> _) {
 			return source.Enumerable.Any(item => source.AnyClauseSelector.Invoke(item).Condition);
 		}
-#endregion
+		#endregion
 
 		// group x by All(condition) into g select g
-#region All
+		#region All
 		public static AllEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AllClause> allClauseSelector) {
 			return new AllEnumerable<TSource>(source, allClauseSelector);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "elementSelector is required in method signature.")]
-		public static AllEnumerable<TSource> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, AllClause> allClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static AllEnumerable<TSource> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, AllClause> allClauseSelector, Func<TSource, TElement> _) {
 			return new AllEnumerable<TSource>(source, allClauseSelector);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static bool Select<TSource, TResult>(this AllEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
+		public static bool Select<TSource, TResult>(this AllEnumerable<TSource> source, Func<TSource, TResult> _) {
 			return source.Enumerable.All(item => source.AllClauseSelector.Invoke(item).Condition);
 		}
-#endregion
+		#endregion
 
 		// group x by Count() into g select g
-#region Count
+		#region Count
 		public static CountEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, CountClause> countClauseSelector) {
 			return new CountEnumerable<TSource>(source, countClauseSelector);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "elementSelector is required in method signature.")]
-		public static CountEnumerable<TSource> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, CountClause> countClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static CountEnumerable<TSource> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, CountClause> countClauseSelector, Func<TSource, TElement> _) {
 			return new CountEnumerable<TSource>(source, countClauseSelector);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static int Select<TSource, TResult>(this CountEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
+		public static int Select<TSource, TResult>(this CountEnumerable<TSource> source, Func<TSource, TResult> _) {
 			return source.Enumerable.Count(item => source.CountClauseSelector.Invoke(item).Condition);
 		}
-#endregion
+		#endregion
 
 		// group x by Max into g select g
-#region Max
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "maxClauseSelector is required in method signature.")]
-		public static MaxEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, MaxClause> maxClauseSelector) where TSource : IComparable<TSource> {
+		#region Max
+		public static MaxEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, MaxClause> _) where TSource : IComparable<TSource> {
 			return new MaxEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "maxClauseSelector is required in method signature.")]
-		public static MaxEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, MaxClause> maxClauseSelector, Func<TSource, TElement> elementSelector) where TElement : IComparable<TElement> {
+		public static MaxEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, MaxClause> _, Func<TSource, TElement> elementSelector) where TElement : IComparable<TElement> {
 			return new MaxEnumerable<TElement>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static TSource Select<TSource, TResult>(this MaxEnumerable<TSource> source, Func<TSource, TResult> resultSelector) where TSource : IComparable<TSource> {
+		public static TSource Select<TSource, TResult>(this MaxEnumerable<TSource> source, Func<TSource, TResult> _) where TSource : IComparable<TSource> {
 			return source.Enumerable.Max();
 		}
-#endregion
+		#endregion
 
 		// group x by Min into g select g
-#region Min
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "minClauseSelector is required in method signature.")]
-		public static MinEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, MinClause> minClauseSelector) where TSource : IComparable<TSource> {
+		#region Min
+		public static MinEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, MinClause> _) where TSource : IComparable<TSource> {
 			return new MinEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "minClauseSelector is required in method signature.")]
-		public static MinEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, MinClause> minClauseSelector, Func<TSource, TElement> elementSelector) where TElement : IComparable<TElement> {
+		public static MinEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, MinClause> _, Func<TSource, TElement> elementSelector) where TElement : IComparable<TElement> {
 			return new MinEnumerable<TElement>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static TSource Select<TSource, TResult>(this MinEnumerable<TSource> source, Func<TSource, TResult> resultSelector) where TSource : IComparable<TSource> {
+		public static TSource Select<TSource, TResult>(this MinEnumerable<TSource> source, Func<TSource, TResult> _) where TSource : IComparable<TSource> {
 			return source.Enumerable.Min();
 		}
-#endregion
+		#endregion
 
 		// group x by Sum into g select g
-#region Sum
+		#region Sum
 		[Obsolete("Sum does not support element of this type.", error: true)]
-		public static SumEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector) {
+		public static SumEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _) {
 			return new SumEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<int> GroupBy(this IEnumerable<int> source, Func<int, SumClause> sumClauseSelector) {
+		public static SumEnumerable<int> GroupBy(this IEnumerable<int> source, Func<int, SumClause> _) {
 			return new SumEnumerable<int>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<int?> GroupBy(this IEnumerable<int?> source, Func<int?, SumClause> sumClauseSelector) {
+		public static SumEnumerable<int?> GroupBy(this IEnumerable<int?> source, Func<int?, SumClause> _) {
 			return new SumEnumerable<int?>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<long> GroupBy(this IEnumerable<long> source, Func<long, SumClause> sumClauseSelector) {
+		public static SumEnumerable<long> GroupBy(this IEnumerable<long> source, Func<long, SumClause> _) {
 			return new SumEnumerable<long>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<long?> GroupBy(this IEnumerable<long?> source, Func<long?, SumClause> sumClauseSelector) {
+		public static SumEnumerable<long?> GroupBy(this IEnumerable<long?> source, Func<long?, SumClause> _) {
 			return new SumEnumerable<long?>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<float> GroupBy(this IEnumerable<float> source, Func<float, SumClause> sumClauseSelector) {
+		public static SumEnumerable<float> GroupBy(this IEnumerable<float> source, Func<float, SumClause> _) {
 			return new SumEnumerable<float>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<float?> GroupBy(this IEnumerable<float?> source, Func<float?, SumClause> sumClauseSelector) {
+		public static SumEnumerable<float?> GroupBy(this IEnumerable<float?> source, Func<float?, SumClause> _) {
 			return new SumEnumerable<float?>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<double> GroupBy(this IEnumerable<double> source, Func<double, SumClause> sumClauseSelector) {
+		public static SumEnumerable<double> GroupBy(this IEnumerable<double> source, Func<double, SumClause> _) {
 			return new SumEnumerable<double>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<double?> GroupBy(this IEnumerable<double?> source, Func<double?, SumClause> sumClauseSelector) {
+		public static SumEnumerable<double?> GroupBy(this IEnumerable<double?> source, Func<double?, SumClause> _) {
 			return new SumEnumerable<double?>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<decimal> GroupBy(this IEnumerable<decimal> source, Func<decimal, SumClause> sumClauseSelector) {
+		public static SumEnumerable<decimal> GroupBy(this IEnumerable<decimal> source, Func<decimal, SumClause> _) {
 			return new SumEnumerable<decimal>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<decimal?> GroupBy(this IEnumerable<decimal?> source, Func<decimal?, SumClause> sumClauseSelector) {
+		public static SumEnumerable<decimal?> GroupBy(this IEnumerable<decimal?> source, Func<decimal?, SumClause> _) {
 			return new SumEnumerable<decimal?>(source);
 		}
-		[Obsolete("Sum does not support element of this type.", error: true)]
-		public static SumEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, TElement> elementSelector) {
+		public static SumEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, TElement> elementSelector) {
 			return new SumEnumerable<TElement>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<int> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, int> elementSelector) {
+		public static SumEnumerable<int> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, int> elementSelector) {
 			return new SumEnumerable<int>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<int?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, int?> elementSelector) {
+		public static SumEnumerable<int?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, int?> elementSelector) {
 			return new SumEnumerable<int?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<long> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, long> elementSelector) {
+		public static SumEnumerable<long> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, long> elementSelector) {
 			return new SumEnumerable<long>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<long?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, long?> elementSelector) {
+		public static SumEnumerable<long?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, long?> elementSelector) {
 			return new SumEnumerable<long?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<float> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, float> elementSelector) {
+		public static SumEnumerable<float> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, float> elementSelector) {
 			return new SumEnumerable<float>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<float?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, float?> elementSelector) {
+		public static SumEnumerable<float?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, float?> elementSelector) {
 			return new SumEnumerable<float?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<double> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, double> elementSelector) {
+		public static SumEnumerable<double> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, double> elementSelector) {
 			return new SumEnumerable<double>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<double?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, double?> elementSelector) {
+		public static SumEnumerable<double?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, double?> elementSelector) {
 			return new SumEnumerable<double?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<decimal> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, decimal> elementSelector) {
+		public static SumEnumerable<decimal> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, decimal> elementSelector) {
 			return new SumEnumerable<decimal>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "sumClauseSelector is required in method signature.")]
-		public static SumEnumerable<decimal?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> sumClauseSelector, Func<TSource, decimal?> elementSelector) {
+		public static SumEnumerable<decimal?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SumClause> _, Func<TSource, decimal?> elementSelector) {
 			return new SumEnumerable<decimal?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static int Select<TResult>(this SumEnumerable<int> source, Func<int, TResult> resultSelector) {
+		public static int Select<TResult>(this SumEnumerable<int> source, Func<int, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static int? Select<TResult>(this SumEnumerable<int?> source, Func<int?, TResult> resultSelector) {
+		public static int? Select<TResult>(this SumEnumerable<int?> source, Func<int?, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static long Select<TResult>(this SumEnumerable<long> source, Func<long, TResult> resultSelector) {
+		public static long Select<TResult>(this SumEnumerable<long> source, Func<long, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static long? Select<TResult>(this SumEnumerable<long?> source, Func<long?, TResult> resultSelector) {
+		public static long? Select<TResult>(this SumEnumerable<long?> source, Func<long?, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static float Select<TResult>(this SumEnumerable<float> source, Func<float, TResult> resultSelector) {
+		public static float Select<TResult>(this SumEnumerable<float> source, Func<float, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static float? Select<TResult>(this SumEnumerable<float?> source, Func<float?, TResult> resultSelector) {
+		public static float? Select<TResult>(this SumEnumerable<float?> source, Func<float?, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static double Select<TResult>(this SumEnumerable<double> source, Func<double, TResult> resultSelector) {
+		public static double Select<TResult>(this SumEnumerable<double> source, Func<double, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static double? Select<TResult>(this SumEnumerable<double?> source, Func<double?, TResult> resultSelector) {
+		public static double? Select<TResult>(this SumEnumerable<double?> source, Func<double?, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static decimal Select<TResult>(this SumEnumerable<decimal> source, Func<decimal, TResult> resultSelector) {
+		public static decimal Select<TResult>(this SumEnumerable<decimal> source, Func<decimal, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static decimal? Select<TResult>(this SumEnumerable<decimal?> source, Func<decimal?, TResult> resultSelector) {
+		public static decimal? Select<TResult>(this SumEnumerable<decimal?> source, Func<decimal?, TResult> _) {
 			return source.Enumerable.Sum();
 		}
-#endregion
+		#endregion
 
 		// group x by Average into g select g
-#region Average
+		#region Average
 		[Obsolete("Average does not support element of this type.", error: true)]
 		public static AverageEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector) {
 			return new AverageEnumerable<TSource>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<int> GroupBy(this IEnumerable<int> source, Func<int, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<int> GroupBy(this IEnumerable<int> source, Func<int, AverageClause> _) {
 			return new AverageEnumerable<int>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<int?> GroupBy(this IEnumerable<int?> source, Func<int?, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<int?> GroupBy(this IEnumerable<int?> source, Func<int?, AverageClause> _) {
 			return new AverageEnumerable<int?>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<long> GroupBy(this IEnumerable<long> source, Func<long, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<long> GroupBy(this IEnumerable<long> source, Func<long, AverageClause> _) {
 			return new AverageEnumerable<long>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<long?> GroupBy(this IEnumerable<long?> source, Func<long?, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<long?> GroupBy(this IEnumerable<long?> source, Func<long?, AverageClause> _) {
 			return new AverageEnumerable<long?>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<float> GroupBy(this IEnumerable<float> source, Func<float, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<float> GroupBy(this IEnumerable<float> source, Func<float, AverageClause> _) {
 			return new AverageEnumerable<float>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<float?> GroupBy(this IEnumerable<float?> source, Func<float?, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<float?> GroupBy(this IEnumerable<float?> source, Func<float?, AverageClause> _) {
 			return new AverageEnumerable<float?>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<double> GroupBy(this IEnumerable<double> source, Func<double, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<double> GroupBy(this IEnumerable<double> source, Func<double, AverageClause> _) {
 			return new AverageEnumerable<double>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<double?> GroupBy(this IEnumerable<double?> source, Func<double?, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<double?> GroupBy(this IEnumerable<double?> source, Func<double?, AverageClause> _) {
 			return new AverageEnumerable<double?>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<decimal> GroupBy(this IEnumerable<decimal> source, Func<decimal, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<decimal> GroupBy(this IEnumerable<decimal> source, Func<decimal, AverageClause> _) {
 			return new AverageEnumerable<decimal>(source);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<decimal?> GroupBy(this IEnumerable<decimal?> source, Func<decimal?, AverageClause> averageClauseSelector) {
+		public static AverageEnumerable<decimal?> GroupBy(this IEnumerable<decimal?> source, Func<decimal?, AverageClause> _) {
 			return new AverageEnumerable<decimal?>(source);
 		}
 		[Obsolete("Average does not support element of this type.", error: true)]
 		public static AverageEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, TElement> elementSelector) {
 			return new AverageEnumerable<TElement>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<int> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, int> elementSelector) {
+		public static AverageEnumerable<int> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, int> elementSelector) {
 			return new AverageEnumerable<int>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<int?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, int?> elementSelector) {
+		public static AverageEnumerable<int?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, int?> elementSelector) {
 			return new AverageEnumerable<int?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<long> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, long> elementSelector) {
+		public static AverageEnumerable<long> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, long> elementSelector) {
 			return new AverageEnumerable<long>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<long?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, long?> elementSelector) {
+		public static AverageEnumerable<long?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, long?> elementSelector) {
 			return new AverageEnumerable<long?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<float> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, float> elementSelector) {
+		public static AverageEnumerable<float> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, float> elementSelector) {
 			return new AverageEnumerable<float>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<float?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, float?> elementSelector) {
+		public static AverageEnumerable<float?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, float?> elementSelector) {
 			return new AverageEnumerable<float?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<double> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, double> elementSelector) {
+		public static AverageEnumerable<double> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, double> elementSelector) {
 			return new AverageEnumerable<double>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<double?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, double?> elementSelector) {
+		public static AverageEnumerable<double?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, double?> elementSelector) {
 			return new AverageEnumerable<double?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<decimal> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, decimal> elementSelector) {
+		public static AverageEnumerable<decimal> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, decimal> elementSelector) {
 			return new AverageEnumerable<decimal>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "averageClauseSelector is required in method signature.")]
-		public static AverageEnumerable<decimal?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> averageClauseSelector, Func<TSource, decimal?> elementSelector) {
+		public static AverageEnumerable<decimal?> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, AverageClause> _, Func<TSource, decimal?> elementSelector) {
 			return new AverageEnumerable<decimal?>(source.Select(elementSelector));
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static double Select<TResult>(this AverageEnumerable<int> source, Func<int, TResult> resultSelector) {
+		public static double Select<TResult>(this AverageEnumerable<int> source, Func<int, TResult> _) {
 			return source.Enumerable.Average();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static double? Select<TResult>(this AverageEnumerable<int?> source, Func<int?, TResult> resultSelector) {
+		public static double? Select<TResult>(this AverageEnumerable<int?> source, Func<int?, TResult> _) {
 			return source.Enumerable.Average();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static double Select<TResult>(this AverageEnumerable<long> source, Func<long, TResult> resultSelector) {
+		public static double Select<TResult>(this AverageEnumerable<long> source, Func<long, TResult> _) {
 			return source.Enumerable.Average();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static double? Select<TResult>(this AverageEnumerable<long?> source, Func<long?, TResult> resultSelector) {
+		public static double? Select<TResult>(this AverageEnumerable<long?> source, Func<long?, TResult> _) {
 			return source.Enumerable.Average();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static float Select<TResult>(this AverageEnumerable<float> source, Func<float, TResult> resultSelector) {
+		public static float Select<TResult>(this AverageEnumerable<float> source, Func<float, TResult> _) {
 			return source.Enumerable.Average();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static float? Select<TResult>(this AverageEnumerable<float?> source, Func<float?, TResult> resultSelector) {
+		public static float? Select<TResult>(this AverageEnumerable<float?> source, Func<float?, TResult> _) {
 			return source.Enumerable.Average();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static double Select<TResult>(this AverageEnumerable<double> source, Func<double, TResult> resultSelector) {
+		public static double Select<TResult>(this AverageEnumerable<double> source, Func<double, TResult> _) {
 			return source.Enumerable.Average();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static double? Select<TResult>(this AverageEnumerable<double?> source, Func<double?, TResult> resultSelector) {
+		public static double? Select<TResult>(this AverageEnumerable<double?> source, Func<double?, TResult> _) {
 			return source.Enumerable.Average();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static decimal Select<TResult>(this AverageEnumerable<decimal> source, Func<decimal, TResult> resultSelector) {
+		public static decimal Select<TResult>(this AverageEnumerable<decimal> source, Func<decimal, TResult> _) {
 			return source.Enumerable.Average();
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static decimal? Select<TResult>(this AverageEnumerable<decimal?> source, Func<decimal?, TResult> resultSelector) {
+		public static decimal? Select<TResult>(this AverageEnumerable<decimal?> source, Func<decimal?, TResult> _) {
 			return source.Enumerable.Average();
 		}
-#endregion
+		#endregion
 
 		// group x by StringJoin into g select g
-#region StringJoin
+		#region StringJoin
 		public static StringJoinEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, StringJoinClause> stringJoinClauseSelector) {
 			StringJoinClause stringJoinClause = stringJoinClauseSelector.Invoke(source.FirstOrDefault());
 			return new StringJoinEnumerable<TSource>(source, stringJoinClause.Separator);
@@ -715,14 +707,13 @@ namespace Parenthless {
 			StringJoinClause stringJoinClause = stringJoinClauseSelector.Invoke(source.FirstOrDefault());
 			return new StringJoinEnumerable<TElement>(source.Select(elementSelector), stringJoinClause.Separator);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static string Select<TSource, TResult>(this StringJoinEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
+		public static string Select<TSource, TResult>(this StringJoinEnumerable<TSource> source, Func<TSource, TResult> _) {
 			return string.Join(source.Separator, source.Enumerable);
 		}
-#endregion
+		#endregion
 
 		// group x by Contains(value) into g select g
-#region Contains
+		#region Contains
 		public static ContainsEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ContainsClause<TSource>> containsClauseSelector) {
 			ContainsClause<TSource> containsClause = containsClauseSelector.Invoke(source.FirstOrDefault());
 			return new ContainsEnumerable<TSource>(source, containsClause.Value, containsClause.Comparer);
@@ -731,14 +722,13 @@ namespace Parenthless {
 			ContainsClause<TElement> containsClause = containsClauseSelector.Invoke(source.FirstOrDefault());
 			return new ContainsEnumerable<TElement>(source.Select(elementSelector), containsClause.Value, containsClause.Comparer);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static bool Select<TSource, TResult>(this ContainsEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
+		public static bool Select<TSource, TResult>(this ContainsEnumerable<TSource> source, Func<TSource, TResult> _) {
 			return source.Enumerable.Contains(source.Value, source.Comparer);
 		}
-#endregion
+		#endregion
 
 		// group x by ContainsAny(values) into g select g
-#region ContainsAny
+		#region ContainsAny
 		public static ContainsAnyEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ContainsAnyClause<TSource>> containsAnyClauseSelector) {
 			ContainsAnyClause<TSource> containsAnyClause = containsAnyClauseSelector.Invoke(source.FirstOrDefault());
 			return new ContainsAnyEnumerable<TSource>(source, containsAnyClause.Values, containsAnyClause.Comparer);
@@ -747,19 +737,18 @@ namespace Parenthless {
 			ContainsAnyClause<TElement> containsAnyClause = containsAnyClauseSelector.Invoke(source.FirstOrDefault());
 			return new ContainsAnyEnumerable<TElement>(source.Select(elementSelector), containsAnyClause.Values, containsAnyClause.Comparer);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
 		public static bool Select<TSource, TResult>(this ContainsAnyEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 #if NETSTANDARD2_0
-			HashSet<TSource> values = new HashSet<TSource>(source.Values.Distinct(), source.Comparer);
+			HashSet<TSource> values = new(source.Values.Distinct(), source.Comparer);
 #else
 			HashSet<TSource> values = source.Values.Distinct().ToHashSet(source.Comparer);
 #endif
 			return source.Enumerable.Any(item => values.Contains(item));
 		}
-#endregion
+		#endregion
 
 		// group x by ContainsAll(values) into g select g
-#region ContainsAll
+		#region ContainsAll
 		public static ContainsAllEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, ContainsAllClause<TSource>> containsAllClauseSelector) {
 			ContainsAllClause<TSource> containsAllClause = containsAllClauseSelector.Invoke(source.FirstOrDefault());
 			return new ContainsAllEnumerable<TSource>(source, containsAllClause.Values, containsAllClause.Comparer);
@@ -768,19 +757,18 @@ namespace Parenthless {
 			ContainsAllClause<TElement> containsAllClause = containsAllClauseSelector.Invoke(source.FirstOrDefault());
 			return new ContainsAllEnumerable<TElement>(source.Select(elementSelector), containsAllClause.Values, containsAllClause.Comparer);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
 		public static bool Select<TSource, TResult>(this ContainsAllEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
 #if NETSTANDARD2_0
-			HashSet<TSource> items = new HashSet<TSource>(source.Enumerable.Distinct(), source.Comparer);
+			HashSet<TSource> items = new(source.Enumerable.Distinct(), source.Comparer);
 #else
 			HashSet<TSource> items = source.Enumerable.Distinct().ToHashSet(source.Comparer);
 #endif
 			return source.Values.All(value => items.Contains(value));
 		}
-#endregion
+		#endregion
 
 		// group x by SequenceEqual(second) into g select g
-#region SequenceEqual
+		#region SequenceEqual
 		public static SequenceEqualEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, SequenceEqualClause<TSource>> sequenceEqualClauseSelector) {
 			SequenceEqualClause<TSource> sequenceEqualClause = sequenceEqualClauseSelector.Invoke(source.FirstOrDefault());
 			return new SequenceEqualEnumerable<TSource>(source, sequenceEqualClause.Second, sequenceEqualClause.Comparer);
@@ -789,10 +777,10 @@ namespace Parenthless {
 			SequenceEqualClause<TElement> sequenceEqualClause = sequenceEqualClauseSelector.Invoke(source.FirstOrDefault());
 			return new SequenceEqualEnumerable<TElement>(source.Select(elementSelector), sequenceEqualClause.Second, sequenceEqualClause.Comparer);
 		}
-		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "resultSelector is required in method signature.")]
-		public static bool Select<TSource, TResult>(this SequenceEqualEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
+		public static bool Select<TSource, TResult>(this SequenceEqualEnumerable<TSource> source, Func<TSource, TResult> _) {
 			return source.Enumerable.SequenceEqual(source.Second, source.Comparer);
 		}
-#endregion
+		#endregion
 	}
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

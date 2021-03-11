@@ -6,6 +6,6 @@
 			Count = count;
 		}
 
-		public SkipThenTakeClause Take(int count) => new SkipThenTakeClause(Count, count);
+		public SkipThenTakeClause Take(int count) => new(Count, count);
 	}
 }
