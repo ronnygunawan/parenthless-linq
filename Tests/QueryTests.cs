@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using Parenthless;
 using System;
 using System.Collections.Generic;
@@ -20,19 +20,19 @@ namespace Tests {
 				ImmutableArray<int>.Empty
 			};
 
-			var listCount = from i in enumerables
+			int listCount = from i in enumerables
 							where OfType<List<int>>()
 							group i by Count() into count
 							select count;
-			var arrayCount = from i in enumerables
+			int arrayCount = from i in enumerables
 							 where OfType<int[]>()
 							 group i by Count() into count
 							 select count;
-			var ilistCount = from i in enumerables
+			int ilistCount = from i in enumerables
 							 where OfType<IList<int>>()
 							 group i by Count() into count
 							 select count;
-			var icollectionCount = from i in enumerables
+			int icollectionCount = from i in enumerables
 								   where OfType<ICollection<int>>()
 								   group i by Count() into count
 								   select count;
@@ -45,11 +45,11 @@ namespace Tests {
 
 		[Fact]
 		public void CanSkipAndTake() {
-			var middleTwoItems = from i in INT_SOURCE
-								 where Skip(3)
-								 where Take(2)
-								 group i by ToList into list
-								 select list;
+			List<int> middleTwoItems = from i in INT_SOURCE
+									   where Skip(3)
+									   where Take(2)
+									   group i by ToList into list
+									   select list;
 
 			middleTwoItems.GetType().Should().Be<List<int>>();
 			middleTwoItems.Should().ContainInOrder(5, 0);
@@ -57,10 +57,10 @@ namespace Tests {
 
 		[Fact]
 		public void CanSkipLast() {
-			var withoutLastFour = from i in INT_SOURCE
-								  where SkipLast(4)
-								  group i by ToList into list
-								  select list;
+			List<int> withoutLastFour = from i in INT_SOURCE
+										where SkipLast(4)
+										group i by ToList into list
+										select list;
 
 			withoutLastFour.GetType().Should().Be<List<int>>();
 			withoutLastFour.Should().ContainInOrder(1, 9, 4, 5);
@@ -68,10 +68,10 @@ namespace Tests {
 
 		[Fact]
 		public void CanTakeLast() {
-			var lastThree = from i in INT_SOURCE
-							where TakeLast(3)
-							group i by ToList into list
-							select list;
+			List<int> lastThree = from i in INT_SOURCE
+								  where TakeLast(3)
+								  group i by ToList into list
+								  select list;
 
 			lastThree.GetType().Should().Be<List<int>>();
 			lastThree.Should().ContainInOrder(8, 1, 7);
@@ -79,10 +79,10 @@ namespace Tests {
 
 		[Fact]
 		public void CanSkipLastThenTakeLast() {
-			var lastTwoOfSubsetWithoutLastFour = from i in INT_SOURCE
-												 where SkipLast(4).TakeLast(2)
-												 group i by ToList into list
-												 select list;
+			List<int> lastTwoOfSubsetWithoutLastFour = from i in INT_SOURCE
+													   where SkipLast(4).TakeLast(2)
+													   group i by ToList into list
+													   select list;
 
 			lastTwoOfSubsetWithoutLastFour.GetType().Should().Be<List<int>>();
 			lastTwoOfSubsetWithoutLastFour.Should().ContainInOrder(4, 5);
@@ -90,10 +90,10 @@ namespace Tests {
 
 		[Fact]
 		public void CanSkipUsingPredicate() {
-			var withoutStartingOddNumbers = from i in INT_SOURCE
-											where SkipWhile(i % 2 > 0)
-											group i by ToList into list
-											select list;
+			List<int> withoutStartingOddNumbers = from i in INT_SOURCE
+												  where SkipWhile(i % 2 > 0)
+												  group i by ToList into list
+												  select list;
 
 			withoutStartingOddNumbers.GetType().Should().Be<List<int>>();
 			withoutStartingOddNumbers.Should().ContainInOrder(4, 5, 0, 8, 1, 7);
@@ -101,10 +101,10 @@ namespace Tests {
 
 		[Fact]
 		public void CanTakeUsingPredicate() {
-			var beforeFirstZero = from i in INT_SOURCE
-								  where TakeWhile(i > 0)
-								  group i by ToList into list
-								  select list;
+			List<int> beforeFirstZero = from i in INT_SOURCE
+										where TakeWhile(i > 0)
+										group i by ToList into list
+										select list;
 
 			beforeFirstZero.GetType().Should().Be<List<int>>();
 			beforeFirstZero.Should().ContainInOrder(1, 9, 4, 5);
@@ -112,10 +112,10 @@ namespace Tests {
 
 		[Fact]
 		public void CanDefaultIfEmpty() {
-			var defaultedEmpty = from i in Array.Empty<int>()
-								 where DefaultIfEmpty
-								 group i by ToList into list
-								 select list;
+			List<int> defaultedEmpty = from i in Array.Empty<int>()
+									   where DefaultIfEmpty
+									   group i by ToList into list
+									   select list;
 
 			defaultedEmpty.GetType().Should().Be<List<int>>();
 			defaultedEmpty.Should().ContainInOrder(0);
@@ -125,10 +125,10 @@ namespace Tests {
 		public void CanConcat() {
 			int[] second = { 1, 2, 3, 4, 5 };
 
-			var union = from i in INT_SOURCE
-						where Concat(second)
-						group i by ToList into list
-						select list;
+			List<int> union = from i in INT_SOURCE
+							  where Concat(second)
+							  group i by ToList into list
+							  select list;
 
 			union.GetType().Should().Be<List<int>>();
 			union.Should().ContainInOrder(1, 9, 4, 5, 0, 8, 1, 7, 1, 2, 3, 4, 5);
@@ -138,10 +138,10 @@ namespace Tests {
 		public void CanUnion() {
 			int[] second = { 1, 2, 3, 4, 5 };
 
-			var union = from i in INT_SOURCE
-						where Union(second)
-						group i by ToList into list
-						select list;
+			List<int> union = from i in INT_SOURCE
+							  where Union(second)
+							  group i by ToList into list
+							  select list;
 
 			union.GetType().Should().Be<List<int>>();
 			union.Should().ContainInOrder(1, 9, 4, 5, 0, 8, 7, 2, 3);
@@ -151,10 +151,10 @@ namespace Tests {
 		public void CanExcept() {
 			int[] second = { 1, 2, 3, 4, 5 };
 
-			var union = from i in INT_SOURCE
-						where Except(second)
-						group i by ToList into list
-						select list;
+			List<int> union = from i in INT_SOURCE
+							  where Except(second)
+							  group i by ToList into list
+							  select list;
 
 			union.GetType().Should().Be<List<int>>();
 			union.Should().ContainInOrder(9, 0, 8, 7);
@@ -164,10 +164,10 @@ namespace Tests {
 		public void CanIntersect() {
 			int[] second = { 1, 2, 3, 4, 5 };
 
-			var union = from i in INT_SOURCE
-						where Intersect(second)
-						group i by ToList into list
-						select list;
+			List<int> union = from i in INT_SOURCE
+							  where Intersect(second)
+							  group i by ToList into list
+							  select list;
 
 			union.GetType().Should().Be<List<int>>();
 			union.Should().ContainInOrder(1, 4, 5);
@@ -175,10 +175,10 @@ namespace Tests {
 
 		[Fact]
 		public void CanSelectDistinct() {
-			var distinctItems = from i in INT_SOURCE
-								orderby Distinct
-								group i by ToHashSet into set
-								select set;
+			HashSet<int> distinctItems = from i in INT_SOURCE
+										 orderby Distinct
+										 group i by ToHashSet into set
+										 select set;
 
 			distinctItems.GetType().Should().Be<HashSet<int>>();
 			distinctItems.Should().ContainInOrder(1, 9, 4, 5, 0, 8, 7);
@@ -186,38 +186,38 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoList() {
-			var list = from i in INT_SOURCE
-					   group i by ToList into l
-					   select l;
+			List<int> list = from i in INT_SOURCE
+							 group i by ToList into l
+							 select l;
 
 			list.GetType().Should().Be<List<int>>();
 		}
 
 		[Fact]
 		public void CanAggregateIntoArray() {
-			var array = from i in INT_SOURCE
-						group i by ToArray into a
-						select a;
+			int[] array = from i in INT_SOURCE
+						  group i by ToArray into a
+						  select a;
 
 			array.GetType().Should().Be<int[]>();
 		}
 
 		[Fact]
 		public void CanAggregateIntoHashSet() {
-			var set = from i in INT_SOURCE
-					  orderby Distinct
-					  group i by ToHashSet into s
-					  select s;
+			HashSet<int> set = from i in INT_SOURCE
+							   orderby Distinct
+							   group i by ToHashSet into s
+							   select s;
 
 			set.GetType().Should().Be<HashSet<int>>();
 		}
 
 		[Fact]
 		public void CanAggregateIntoDictionary() {
-			var stringRepByValue = from i in INT_SOURCE
-								   where Distinct
-								   group i.ToString() by ToDictionary(i) into dict
-								   select dict;
+			Dictionary<int, string> stringRepByValue = from i in INT_SOURCE
+													   where Distinct
+													   group i.ToString() by ToDictionary(i) into dict
+													   select dict;
 
 			stringRepByValue.GetType().Should().Be<Dictionary<int, string>>();
 			stringRepByValue.Should().Contain(new Dictionary<int, string> {
@@ -230,10 +230,10 @@ namespace Tests {
 				{ 7, "7" }
 			});
 
-			var stringRepByValue2 = from i in INT_SOURCE
-									where Distinct
-									group i by ToDictionary(i, i.ToString()) into dict
-									select dict;
+			Dictionary<int, string> stringRepByValue2 = from i in INT_SOURCE
+														where Distinct
+														group i by ToDictionary(i, i.ToString()) into dict
+														select dict;
 
 			stringRepByValue2.GetType().Should().Be<Dictionary<int, string>>();
 			stringRepByValue2.Should().Contain(new Dictionary<int, string> {
@@ -249,7 +249,7 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoFirst() {
-			var firstItem = from i in INT_SOURCE
+			int firstItem = from i in INT_SOURCE
 							group i by First into g
 							select g;
 
@@ -259,7 +259,7 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoLast() {
-			var lastItem = from i in INT_SOURCE
+			int lastItem = from i in INT_SOURCE
 						   group i by Last into g
 						   select g;
 
@@ -269,7 +269,7 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoSingle() {
-			var singleItem = from i in INT_SOURCE
+			int singleItem = from i in INT_SOURCE
 							 where Skip(2)
 							 where Take(1)
 							 group i by Linq.Single into g
@@ -281,7 +281,7 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoElementAt() {
-			var fifthElement = from i in INT_SOURCE
+			int fifthElement = from i in INT_SOURCE
 							   group i by ElementAt(4) into g
 							   select g;
 
@@ -291,9 +291,9 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoAny() {
-			var anyNumberGreaterThan9 = from i in INT_SOURCE
-										group i by Any(i > 9) into a
-										select a;
+			bool anyNumberGreaterThan9 = from i in INT_SOURCE
+										 group i by Any(i > 9) into a
+										 select a;
 
 			anyNumberGreaterThan9.GetType().Should().Be<bool>();
 			anyNumberGreaterThan9.Should().Be(false);
@@ -301,9 +301,9 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoAll() {
-			var allNumbersLessThan10 = from i in INT_SOURCE
-									   group i by All(i < 10) into a
-									   select a;
+			bool allNumbersLessThan10 = from i in INT_SOURCE
+										group i by All(i < 10) into a
+										select a;
 
 			allNumbersLessThan10.GetType().Should().Be<bool>();
 			allNumbersLessThan10.Should().Be(true);
@@ -311,7 +311,7 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoCount() {
-			var count = from i in INT_SOURCE
+			int count = from i in INT_SOURCE
 						group i by Count() into c
 						select c;
 
@@ -321,7 +321,7 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoMax() {
-			var max = from i in INT_SOURCE
+			int max = from i in INT_SOURCE
 					  group i by Max into m
 					  select m;
 
@@ -331,7 +331,7 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoMin() {
-			var min = from i in INT_SOURCE
+			int min = from i in INT_SOURCE
 					  group i by Min into m
 					  select m;
 
@@ -341,7 +341,7 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoSum() {
-			var sum = from i in INT_SOURCE
+			int sum = from i in INT_SOURCE
 					  group i by Sum into s
 					  select s;
 
@@ -351,9 +351,9 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoAverage() {
-			var avg = from i in INT_SOURCE
-					  group i by Average into a
-					  select a;
+			double avg = from i in INT_SOURCE
+						 group i by Average into a
+						 select a;
 
 			avg.GetType().Should().Be<double>();
 			avg.Should().Be(35.0 / 8.0);
@@ -361,9 +361,9 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoStringJoin() {
-			var joined = from i in INT_SOURCE
-						 group i by StringJoin() into sj
-						 select sj;
+			string joined = from i in INT_SOURCE
+							group i by StringJoin() into sj
+							select sj;
 
 			joined.GetType().Should().Be<string>();
 			joined.Should().Be("1, 9, 4, 5, 0, 8, 1, 7");
@@ -371,9 +371,9 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoContains() {
-			var contains3 = from i in INT_SOURCE
-							group i by Contains(3) into c
-							select c;
+			bool contains3 = from i in INT_SOURCE
+							 group i by Contains(3) into c
+							 select c;
 
 			contains3.GetType().Should().Be<bool>();
 			contains3.Should().BeFalse();
@@ -381,9 +381,9 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoContainsAny() {
-			var contains3or4 = from i in INT_SOURCE
-							   group i by ContainsAny(3, 4) into c
-							   select c;
+			bool contains3or4 = from i in INT_SOURCE
+								group i by ContainsAny(3, 4) into c
+								select c;
 
 			contains3or4.GetType().Should().Be<bool>();
 			contains3or4.Should().BeTrue();
@@ -391,9 +391,9 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoContainsAll() {
-			var containsAll0to9 = from i in INT_SOURCE
-								  group i by ContainsAll(Enumerable.Range(0, 10)) into c
-								  select c;
+			bool containsAll0to9 = from i in INT_SOURCE
+								   group i by ContainsAll(Enumerable.Range(0, 10)) into c
+								   select c;
 
 			containsAll0to9.GetType().Should().Be<bool>();
 			containsAll0to9.Should().BeFalse();
@@ -401,12 +401,25 @@ namespace Tests {
 
 		[Fact]
 		public void CanAggregateIntoSequenceEqual() {
-			var equals = from i in INT_SOURCE
-						 group i by SequenceEqual(INT_SOURCE) into eq
-						 select eq;
+			bool equals = from i in INT_SOURCE
+						  group i by SequenceEqual(INT_SOURCE) into eq
+						  select eq;
 
 			equals.GetType().Should().Be<bool>();
 			equals.Should().BeTrue();
+		}
+
+		[Fact]
+		public void CanFilterUsingMethodGroup() {
+		}
+
+		[Fact]
+		public void CanAggregateUsingMethodGroup() {
+			List<int> list = from i in INT_SOURCE
+							 group i by Enumerable.ToList into l
+							 select l;
+
+			list.GetType().Should().Be<List<int>>();
 		}
 	}
 }

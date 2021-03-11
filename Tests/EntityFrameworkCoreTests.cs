@@ -19,9 +19,9 @@ namespace Tests {
 		[Fact]
 		public async Task CanEnumerateToListAsync() {
 			using TestDbContext dbContext = _services.DbContext;
-			var continents = await from continent in dbContext.Continents
-								   group continent.Name by ToListAsync() into list
-								   select list;
+			List<string> continents = await from continent in dbContext.Continents
+											group continent.Name by ToListAsync() into list
+											select list;
 			continents.GetType().Should().Be<List<string>>();
 			continents.Should().ContainInOrder("Asia", "Africa", "North America", "South America", "Antarctica", "Europe", "Australia", "Oceania");
 		}
@@ -30,9 +30,9 @@ namespace Tests {
 		public async Task CanEnumerateToArrayAsync() {
 			CancellationToken cancellationToken = CancellationToken.None;
 			using TestDbContext dbContext = _services.DbContext;
-			var continents = await from continent in dbContext.Continents
-								   group continent.Name by ToArrayAsync(cancellationToken) into list
-								   select list;
+			string[] continents = await from continent in dbContext.Continents
+										group continent.Name by ToArrayAsync(cancellationToken) into list
+										select list;
 			continents.GetType().Should().Be<string[]>();
 			continents.Should().ContainInOrder("Asia", "Africa", "North America", "South America", "Antarctica", "Europe", "Australia", "Oceania");
 		}
@@ -40,9 +40,9 @@ namespace Tests {
 		[Fact]
 		public async Task CanEnumerateToDictionaryAsync() {
 			using TestDbContext dbContext = _services.DbContext;
-			var continents = await from continent in dbContext.Continents
-								   group continent.Name by ToDictionaryAsync(continent.Id, CancellationToken.None) into dict
-								   select dict;
+			Dictionary<int, string> continents = await from continent in dbContext.Continents
+													   group continent.Name by ToDictionaryAsync(continent.Id, CancellationToken.None) into dict
+													   select dict;
 			continents.GetType().Should().Be<Dictionary<int, string>>();
 			continents.Should().ContainValues("Asia", "Africa", "North America", "South America", "Antarctica", "Europe", "Australia", "Oceania");
 		}

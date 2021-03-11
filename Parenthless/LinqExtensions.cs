@@ -6,14 +6,6 @@ using System.Linq;
 
 namespace Parenthless {
 	public static class LinqExtensions {
-//#if NETSTANDARD2_1 || NETCOREAPP3_0
-//		// from i in 0..10
-//		public static IEnumerable<TResult> Select<TResult>(this Range range, Func<int, TResult> selector) {
-//			if (range.Start.IsFromEnd || range.End.IsFromEnd) throw new InvalidOperationException("^ operator is not supported.");
-//			return Enumerable.Range(range.Start.Value, range.End.Value - range.Start.Value + 1).Select(selector);
-//		}
-//#endif
-
 		// where OfType<TResult>()
 		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "ofTypeClauseSelector is required in method signature.")]
 		public static IEnumerable<TResult> Where<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, OfTypeClause<TResult>> ofTypeClauseSelector) {
@@ -159,8 +151,20 @@ namespace Parenthless {
 		public static ToListEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToListClause> toListClauseSelector, Func<TSource, TElement> elementSelector) {
 			return new ToListEnumerable<TElement>(source.Select(elementSelector));
 		}
+		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
+		public static ToListEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, List<TSource>>> methodGroupSelector) {
+			return new ToListEnumerable<TSource>(source);
+		}
+		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
+		public static ToListEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, List<TSource>>> methodGroupSelector, Func<TSource, TElement> elementSelector) {
+			return new ToListEnumerable<TElement>(source.Select(elementSelector));
+		}
 		public static List<TResult> Select<TSource, TResult>(this ToListEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
-			return source.Enumerable.Select(resultSelector).ToList();
+			if (source.Enumerable is List<TResult> list) {
+				return list;
+			} else {
+				return source.Enumerable.Select(resultSelector).ToList();
+			}
 		}
 		#endregion
 
@@ -172,6 +176,14 @@ namespace Parenthless {
 		}
 		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "toArrayClauseSelector is required in method signature.")]
 		public static ToArrayEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToArrayClause> toArrayClauseSelector, Func<TSource, TElement> elementSelector) {
+			return new ToArrayEnumerable<TElement>(source.Select(elementSelector));
+		}
+		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
+		public static ToArrayEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, TSource[]>> methodGroupSelector) {
+			return new ToArrayEnumerable<TSource>(source);
+		}
+		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
+		public static ToArrayEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, TSource[]>> methodGroupSelector, Func<TSource, TElement> elementSelector) {
 			return new ToArrayEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static TResult[] Select<TSource, TResult>(this ToArrayEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
@@ -187,6 +199,14 @@ namespace Parenthless {
 		}
 		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "toHashSetClauseSelector is required in method signature.")]
 		public static ToHashSetEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, ToHashSetClause> toHashSetClauseSelector, Func<TSource, TElement> elementSelector) {
+			return new ToHashSetEnumerable<TElement>(source.Select(elementSelector));
+		}
+		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
+		public static ToHashSetEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, HashSet<TSource>>> methodGroupSelector) {
+			return new ToHashSetEnumerable<TSource>(source);
+		}
+		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "methodGroupSelector is required in method signature.")]
+		public static ToHashSetEnumerable<TElement> GroupBy<TSource, TElement>(this IEnumerable<TSource> source, Func<TSource, Func<IEnumerable<TSource>, HashSet<TSource>>> methodGroupSelector, Func<TSource, TElement> elementSelector) {
 			return new ToHashSetEnumerable<TElement>(source.Select(elementSelector));
 		}
 		public static HashSet<TResult> Select<TSource, TResult>(this ToHashSetEnumerable<TSource> source, Func<TSource, TResult> resultSelector) {
@@ -225,7 +245,7 @@ namespace Parenthless {
 		#endregion
 
 		// group x by First into g select g
-		#region First
+#region First
 		[SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "firstClauseSelector is required in method signature.")]
 		public static FirstEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, Func<TSource, FirstClause> firstClauseSelector) {
 			return new FirstEnumerable<TSource>(source);
